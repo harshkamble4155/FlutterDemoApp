@@ -1,0 +1,44 @@
+name: Flutter CI - Build APK
+
+on:
+  push:
+    - main
+  pull_request:
+
+jobs:
+  build-apk:
+    name: Flutter Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.8'
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Step 4: Run static analysis (optional but recommended)
+      - name: Analyze code
+        run: flutter analyze
+
+      # Step 5: Run tests (optional, you can remove if not needed)
+      - name: Run tests
+        run: flutter test
+
+      # Step 6: Build Release APK
+      - name: Build APK
+        run: flutter build apk --release
+
+      # Step 7: Upload APK as an artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: flutter-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
