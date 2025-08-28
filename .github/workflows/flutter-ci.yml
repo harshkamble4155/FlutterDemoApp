@@ -2,12 +2,13 @@ name: Flutter CI - Build APK
 
 on:
   push:
-    - main
-  pull_request:
+    branches:
+      - main   # runs when code is pushed to main branch
+  pull_request: # also runs on PRs
 
 jobs:
   build-apk:
-    name: Flutter Build APK
+    name: Build Flutter APK
     runs-on: ubuntu-latest
 
     steps:
